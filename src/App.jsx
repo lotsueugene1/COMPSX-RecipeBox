@@ -3,19 +3,31 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import './App.css';
+import { searchRecipes } from './services/recipeService'; 
+import { useState } from 'react';
+
 
 const App = () => {
-  return (
-    <Router>
-      <div className="app">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/favorites" element={<Favorites />} />
-        </Routes>
-      </div>
-    </Router>
-  );
-};
+
+  // Create search state
+  const [searchResults, setSearchResults] = useState(null); 
+  // Handler function to query search
+  const handleSearch = async (query) => { 
+    const results = await searchRecipes(query); 
+    setSearchResults(results); 
+  }; 
+
+return ( 
+    <Router> 
+      <div className="app"> 
+      <Header onSearch={handleSearch} /> 
+      <Routes> 
+        <Route path="/" element={<Home searchResults={searchResults} />} />
+        <Route path="/favorites" element={<Favorites />} /> 
+      </Routes> 
+      </div> 
+    </Router> 
+  ); 
+}; 
 
 export default App;
