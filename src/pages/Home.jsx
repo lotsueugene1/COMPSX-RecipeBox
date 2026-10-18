@@ -1,7 +1,9 @@
 import RecipeGrid from '../components/RecipeGrid';
 import { useState, useEffect } from 'react';
 import { getPopularRecipes } from '../services/recipeService';
-function Home() {
+
+
+function Home({searchResults}) {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
@@ -14,13 +16,15 @@ setRecipes(recipeData);
 fetchRecipes();
   }, []); // Empty dependency array
 
+   const displayRecipes = searchResults || recipes;
+
   return (
     <main className="main-content">
       <div className="content-header">
         <h2>Popular Recipes</h2>
         <p>Discover delicious recipes for every meal</p>
       </div>
-      <RecipeGrid recipes={recipes} />
+      <RecipeGrid recipes={displayRecipes} />
     </main>
   );
 };
